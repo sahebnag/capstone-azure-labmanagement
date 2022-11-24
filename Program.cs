@@ -17,7 +17,7 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c => { c.SwaggerEndpoint("./v1/swagger.json", "Snag - LabManagement"); });
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
