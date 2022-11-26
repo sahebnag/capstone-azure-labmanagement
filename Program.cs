@@ -10,6 +10,7 @@ builder.Services.AddSingleton<KeyVaultManager>();
 builder.Services.AddDbContext<Capstone.LabManagement.Repository.LabManagementContext>();
 builder.Services.AddScoped<AuthorRepository>();
 builder.Services.AddScoped<CategoryRepository>();
+builder.Services.AddScoped<LabRepository>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

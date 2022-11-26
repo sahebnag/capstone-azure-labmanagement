@@ -22,12 +22,18 @@ public class LabController : ControllerBase
     [HttpPost("createLab")]
     public IActionResult CreateLab(Lab lab)
     {
+        if(!_labRepo.ValidateAuthor(lab.Author.Id))
+            return BadRequest($"Author Id: {lab.Author.Id} does not exist. Please try with valid Author Id !");
+
+        if(!_labRepo.ValidateCategory(lab.Category.Id))
+            return BadRequest($"Category Id: {lab.Category.Id} does not exist. Please try with valid Category Id !");
+
         Lab? result = _labRepo.Create(lab);
 
         if(result == null)
         {
             _logger.LogError("Error while creating Lab!");
-            return BadRequest("Author or Category id does not exist ! ");
+            return BadRequest("Error while creating Lab ! ");
         }
         else
         {
@@ -38,10 +44,18 @@ public class LabController : ControllerBase
 
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Lab))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPut("updateLab")]
     public IActionResult UpdateLab(Lab lab, int id)
     {
+        if(!_labRepo.ValidateAuthor(lab.Author.Id))
+            return BadRequest($"Author Id: {lab.Author.Id} does not exist. Please try with valid Author Id !");
+
+        if(!_labRepo.ValidateCategory(lab.Category.Id))
+            return BadRequest($"Category Id: {lab.Category.Id} does not exist. Please try with valid Category Id !");
+
         var result = _labRepo.Update(lab,id);
+
         if(result == null)
             return NotFound($"No Lab found for Id: {id}. Please try with a valid id !");
         

@@ -9,9 +9,19 @@ public struct Lab
     [JsonProperty("name")]
     public string? Name { get; set; }
 
+    public struct LabCategory
+    {
+        public int Id { get; set; }
+    }
+
+    public struct LabAuthor
+    {
+        public int Id { get; set; }
+    }
+
     [JsonProperty("category")]
-    public Category? Category { get; set; }
+    public LabCategory Category { get; set; }
 
     [JsonProperty("author")]
-    public Author? Author { get; set; }
+    public LabAuthor Author { get; set; }
 }

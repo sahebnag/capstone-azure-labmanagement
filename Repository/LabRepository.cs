@@ -18,16 +18,10 @@ public class LabRepository
     {
         try
         {
-            var authorId = lab.Author?.Id;
-            var categoryId = lab.Category?.Id;
+            var authorId = lab.Author.Id;
+            var categoryId = lab.Category.Id;
 
-            CategoryDto? categoryDto = _labManagementContext.Categories.Where(x => x.Id == categoryId).FirstOrDefault();
-            AuthorDto? authorDto = _labManagementContext.Authors.Where(x => x.Id == authorId).FirstOrDefault();
-
-            if(categoryDto == null || authorDto == null)
-                return null;
-
-            LabDto labDto = new(){Name = lab.Name, CategoryId = categoryId ?? default(int), AuthorId = authorId ?? default(int)};
+            LabDto labDto = new(){Name = lab.Name, CategoryId = categoryId, AuthorId = authorId};
             _labManagementContext.Labs.Add(labDto);
             _labManagementContext.SaveChanges();
             lab.Id = labDto.Id;
@@ -48,12 +42,9 @@ public class LabRepository
 
         if(labDto != null)
         {
-            var authorId = lab.Author?.Id;
-            var categoryId = lab.Category?.Id;
-
             labDto.Name = lab.Name;
-            labDto.CategoryId = categoryId ?? default(int);
-            labDto.AuthorId = authorId ?? default(int);
+            labDto.CategoryId = lab.Category.Id;
+            labDto.AuthorId = lab.Author.Id;
             _labManagementContext.Labs.Update(labDto);
             _labManagementContext.SaveChanges();
             lab.Id = labDto.Id;
@@ -88,7 +79,7 @@ public class LabRepository
 
         if(labDto != null)
         {
-            return new(){Id = labDto.Id, Name = labDto.Name, Category = new Category(){ Id = labDto.CategoryId }, Author = new Author(){ Id = labDto.AuthorId } };
+            return new(){Id = labDto.Id, Name = labDto.Name, Category = new(){ Id = labDto.CategoryId }, Author = new(){ Id = labDto.AuthorId } };
         }
         else
         {
@@ -101,8 +92,30 @@ public class LabRepository
         List<Lab> labs = new();
         var labDtos =_labManagementContext.Labs.ToList();
         labDtos.ForEach(l => labs.Add(
-            new(){Id = l.Id, Name = l.Name, Category = new Category(){ Id = l.CategoryId }, Author = new Author(){ Id = l.AuthorId } }
+            new(){Id = l.Id, Name = l.Name, Category = new(){ Id = l.CategoryId }, Author = new(){ Id = l.AuthorId } }
         ));
         return labs;
+    }
+
+    public bool ValidateCategory(int categoryId)
+    {
+        CategoryDto? categoryDto = _labManagementContext.Categories.Where(x => x.Id == categoryId).FirstOrDefault();
+        
+        if(categoryDto == null)
+            return false;
+        else
+            return true;
+
+    }
+
+    public bool ValidateAuthor(int authorId)
+    {
+        AuthorDto? authorDto = _labManagementContext.Authors.Where(x => x.Id == authorId).FirstOrDefault();
+
+        if(authorDto == null)
+            return false;
+        else
+            return true;
+
     }
 }
