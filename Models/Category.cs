@@ -4,7 +4,6 @@ namespace Capstone.LabManagement.Models;
 
 public struct Category
 {
-    [JsonIgnore]
     public int Id { get; internal set; }
 
     [JsonProperty("Name")]

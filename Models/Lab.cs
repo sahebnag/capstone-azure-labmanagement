@@ -4,9 +4,14 @@ namespace Capstone.LabManagement.Models;
 
 public struct Lab
 {
-    [JsonIgnore]
-    public int Id { get; set; }
+    public int Id { get; internal set; }
 
-    [JsonProperty("Name")]
-    public string Name { get; set; }
+    [JsonProperty("name")]
+    public string? Name { get; set; }
+
+    [JsonProperty("category")]
+    public Category? Category { get; set; }
+
+    [JsonProperty("author")]
+    public Author? Author { get; set; }
 }

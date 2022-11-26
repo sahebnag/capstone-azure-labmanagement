@@ -20,9 +20,9 @@ public class CategoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Category))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost("createCategory")]
-    public IActionResult CreateCategory(Category Category)
+    public IActionResult CreateCategory(Category category)
     {
-        Category? result = _categoryRepo.Create(Category);
+        Category? result = _categoryRepo.Create(category);
 
         if(result == null)
         {
@@ -39,9 +39,9 @@ public class CategoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Category))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpPut("updateCategory")]
-    public IActionResult UpdateCategory(Category Category, int id)
+    public IActionResult UpdateCategory(Category category, int id)
     {
-        var result = _categoryRepo.Update(Category,id);
+        var result = _categoryRepo.Update(category,id);
         if(result == null)
             return NotFound($"No Category found for Id: {id}. Please try with a valid id !");
         

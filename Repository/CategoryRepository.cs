@@ -1,4 +1,3 @@
-
 using Capstone.LabManagement.Entities;
 using Capstone.LabManagement.Models;
 
@@ -19,10 +18,10 @@ public class CategoryRepository
     {
         try
         {
-            CategoryDto CategoryDto = new(){Name = category.Name};
-            _labManagementContext.Categories.Add(CategoryDto);
+            CategoryDto categoryDto = new(){Name = category.Name};
+            _labManagementContext.Categories.Add(categoryDto);
             _labManagementContext.SaveChanges();
-            category.Id = CategoryDto.Id;
+            category.Id = categoryDto.Id;
             return category;
         }
         catch(Exception e)
